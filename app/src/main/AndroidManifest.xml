@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activitys.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,12 +19,12 @@
 
 
         <activity
-            android:name="com.example.iotconn.RegisterActivity"
+            android:name="com.example.iotconn.activitys.RegisterActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name="com.example.iotconn.MainActivity"
+            android:name="com.example.iotconn.activitys.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
