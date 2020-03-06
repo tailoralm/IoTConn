@@ -8,6 +8,10 @@
     <string name="prompt_password_again">Confirm Password</string>
     <string name="prompt_msg">Type a message</string>
 
+    <string name="prompt_device_name">Name</string>
+    <string name="prompt_device_address">Address</string>
+    <string name="prompt_device_port">Port</string>
+
 
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
@@ -25,4 +29,6 @@
     <string name="action_send">Send</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="action_save">Save</string>
+    <string name="action_create">Create</string>
 </resources>
