@@ -20,7 +20,8 @@
             android:inputType="text"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:textColorHint="@color/white"
+            android:autofillHints="" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -36,7 +37,8 @@
             android:inputType="text"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:textColorHint="@color/white"
+            android:autofillHints="" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -52,7 +54,8 @@
             android:inputType="text"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:textColorHint="@color/white"
+            android:autofillHints="" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -65,6 +68,18 @@
         android:background="@color/green"
         android:onClick="saveDevice"
         android:text="@string/action_save"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/cancel_device"
+        style="?android:textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/common_google_signin_btn_text_light_default"
+        android:onClick="backToDevices"
+        android:text="@string/action_cancel"
         android:textColor="@color/white"
         android:textStyle="bold" />
 
