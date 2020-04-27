@@ -37,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String valorTexto = devicesList.get(position).getName();
-                Toast.makeText(getBaseContext(), valorTexto,Toast.LENGTH_LONG ).show();
+                openDeviceActivity(devicesList.get(position));
+//                String valorTexto = devicesList.get(position).getName();
+//                Toast.makeText(getBaseContext(), valorTexto,Toast.LENGTH_LONG ).show();
             }
         });
 
@@ -76,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
     public void refreshDevices(View v) {
         loadDevicesList();
         loadListView();
+    }
+
+    public void openDeviceActivity(Device d){
+        Intent i = new Intent(this, DeviceActivity.class);
+        i.putExtra("selected_device", d);
+        finish();
+        startActivity(i);
     }
 
     public void createDevice(View v){

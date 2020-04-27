@@ -7,8 +7,8 @@
     tools:context=".activitys.DeviceActivity">
 
     <LinearLayout
-        android:layout_width="412dp"
-        android:layout_height="143dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10px"
         android:layout_marginTop="30px"
         android:layout_marginRight="10px"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/device_image"
+            android:id="@+id/iv_device_image"
             android:layout_width="129dp"
             android:layout_height="115dp"
             android:layout_marginLeft="10px"
@@ -43,5 +43,38 @@
                 android:layout_height="wrap_content"
                 android:text="Status: " />
         </LinearLayout>
+
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="407dp"
+        android:layout_height="98dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/refresh_devices2"
+            style="?android:textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#515151"
+            android:onClick="refreshDevices"
+            android:text="@string/action_refresh"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/save_device2"
+            style="?android:textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green"
+            android:onClick="createDevice"
+            android:text="@string/action_create"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
