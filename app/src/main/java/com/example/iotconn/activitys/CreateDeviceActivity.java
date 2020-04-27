@@ -18,51 +18,55 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.UUID;
+
 public class CreateDeviceActivity extends AppCompatActivity {
     FirebaseUtils firebaseUtils;
+    Device device;
+    EditText evName;
+    EditText evAddress;
+    EditText evPort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_device);
         firebaseUtils = new FirebaseUtils();
+        Intent i = getIntent();
+
+        evName = (EditText) findViewById(R.id.device_name);
+        evAddress = (EditText) findViewById(R.id.device_address);
+        evPort = (EditText) findViewById(R.id.device_port);
+
+        if(i.getBooleanExtra("newDevice", true)){
+            device = new Device();
+        } else{
+            device = (Device) i.getSerializableExtra("object_device");
+            evName.setText(device.getName());
+            evAddress.setText(device.getAddress());
+            evPort.setText(device.getPort());
+        }
+
     }
 
     public void saveDevice(View v){
-        EditText evName = (EditText) findViewById(R.id.device_name);
-        EditText evAddress = (EditText) findViewById(R.id.device_address);
-        EditText evPort = (EditText) findViewById(R.id.device_port);
+        device.setName(evName.getText().toString());
+        device.setAddress(evAddress.getText().toString());
+        device.setPort(evPort.getText().toString());
 
-        Device device = new Device(evName.getText().toString(), evAddress.getText().toString(), evPort.getText().toString());
-
-
-        firebaseUtils.getMDatabase().child(firebaseUtils.getMAuth().getUid()).child("devices").child(device.getName()).setValue(device)
+        firebaseUtils.getMDatabase().child(firebaseUtils.getUserUID()).child("devices").child(device.getId()).setValue(device)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getBaseContext(), "Sucess!",Toast.LENGTH_LONG ).show();
+                        Toast.makeText(getBaseContext(), "Success!",Toast.LENGTH_LONG ).show();
                         backToDevices();
                     }
                 });
     }
 
-    public void backToDevices(View v){
-        backToDevices();
-    }
-
     public void backToDevices(){
-        Intent intent = new Intent(CreateDeviceActivity.this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         finish();
         startActivity(intent);
-    }
-
-
-    private void showErrorDialog(String message) {
-        new AlertDialog.Builder(this)
-                .setTitle("Oops")
-                .setMessage(message)
-                .setPositiveButton(android.R.string.ok, null)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
     }
 }

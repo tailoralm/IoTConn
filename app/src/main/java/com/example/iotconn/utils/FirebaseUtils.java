@@ -28,6 +28,10 @@ public class FirebaseUtils {
         return mAuth;
     }
 
+    public String getUserUID(){
+        return mAuth.getUid();
+    }
+
     public DatabaseReference getMDatabase(){
         return mDatabase;
     }

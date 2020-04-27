@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
         loadDevicesList();
         loadListView();
-
     }
 
     private void loadListView() {
@@ -56,8 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadDevicesList(){
-//        devicesList.add(new Device("Lampada sala", "Ativo", "aaaaa", "asdas"));
-        Query query = firebaseUtils.getMDatabase().child(firebaseUtils.getMAuth().getUid()).child("devices");
+        Query query = firebaseUtils.getMDatabase().child(firebaseUtils.getUserUID()).child("devices");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -82,14 +80,13 @@ public class MainActivity extends AppCompatActivity {
     public void openDeviceActivity(Device d){
         Intent i = new Intent(this, DeviceActivity.class);
         i.putExtra("selected_device", d);
-        finish();
         startActivity(i);
     }
 
     public void createDevice(View v){
-        Intent intent = new Intent(this, CreateDeviceActivity.class);
-        finish();
-        startActivity(intent);
+        Intent i = new Intent(this, CreateDeviceActivity.class);
+        i.putExtra("newDevice", true);
+        startActivity(i);
     }
 
 }

@@ -35,46 +35,85 @@
                 android:id="@+id/tv_device_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nome: " />
+                android:text="@string/prompt_device_name" />
 
             <TextView
                 android:id="@+id/tv_device_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Status: " />
+                android:text="@string/prompt_device_status" />
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="407dp"
-        android:layout_height="98dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/refresh_devices2"
-            style="?android:textAppearanceMedium"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#515151"
-            android:onClick="refreshDevices"
-            android:text="@string/action_refresh"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/save_device2"
-            style="?android:textAppearanceMedium"
+            <Button
+                android:id="@+id/btnEditDevice"
+                style="?android:textAppearanceMedium"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:background="#595959"
+                android:onClick="editDevice"
+                android:text="@string/action_edit"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnRefreshDevice"
+                style="?android:textAppearanceMedium"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:background="#515151"
+                android:onClick="refreshInfos"
+                android:text="@string/action_refresh"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/green"
-            android:onClick="createDevice"
-            android:text="@string/action_create"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnDeleteDevice"
+                style="?android:textAppearanceMedium"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:background="#F44336"
+                android:onClick="deleteDevice"
+                android:text="@string/action_delete"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnCreateAction"
+                style="?android:textAppearanceMedium"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:background="@color/green"
+                android:onClick="createAction"
+                android:text="@string/action_create_action"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

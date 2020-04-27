@@ -141,10 +141,6 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
         }
-
-//        String displayName = mUsernameView.getText().toString();
-//        SharedPreferences prefs = getSharedPreferences(CHAT_PREFS, 0);
-//        prefs.edit().putString(DISPLAY_NAME_KEY, displayName).apply();
     }
 
     private void showErrorDialog(String message) {

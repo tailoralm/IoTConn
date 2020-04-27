@@ -5,31 +5,41 @@ import android.os.Parcelable;
 
 import com.example.iotconn.R;
 
-public class Device implements Parcelable {
+import java.io.Serializable;
+import java.util.UUID;
 
+public class Device implements Serializable {
+
+    private String id;
     private String name;
     private String status;
     private String address;
     private String port;
     private int image;
-    private int mData;
 
     public Device() {
+        setAddress("");
+        setPort("");
+        setName("");
+        setStatus("");
+        setId(UUID.randomUUID().toString());
         image = R.drawable.device;
     }
 
-    public Device(String name, String address, String port) {
+    public Device(String id, String name, String address, String port) {
         setAddress(address);
         setPort(port);
         setName(name);
+        setId(id);
         image = R.drawable.device;
     }
 
-    public Device(String name, String status, String address, String port) {
+    public Device(String id, String name, String status, String address, String port) {
         setAddress(address);
         setPort(port);
         setName(name);
         setStatus(status);
+        setId(id);
         image = R.drawable.device;
     }
 
@@ -62,27 +72,11 @@ public class Device implements Parcelable {
 
     public void setImage(int image) {  this.image = image;   }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getId() {
+        return id;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
-
-    public static final Parcelable.Creator<Device> CREATOR = new Parcelable.Creator<Device>() {
-        public Device createFromParcel(Parcel in) {
-            return new Device(in);
-        }
-        public Device[] newArray(int size) {
-            return new Device[size];
-        }
-    };
-
-    // example constructor that takes a Parcel and gives you an object populated with it's values
-    private Device(Parcel in) {
-        mData = in.readInt();
+    public void setId(String id) {
+        this.id = id;
     }
 }
