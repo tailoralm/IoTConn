@@ -7,20 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.iotconn.R;
-import com.example.iotconn.models.Device;
+import com.example.iotconn.models.Action;
 
 import java.util.ArrayList;
 
-public class DeviceListAdapter extends ArrayAdapter<Device> {
-    private static  final String TAG = "DeviceListAdapter";
+public class ActionListAdapter extends ArrayAdapter<Action> {
+    private static  final String TAG = "ActionListAdapter";
     private Context mContext;
     private  int mResource;
 
-    public DeviceListAdapter ( Context context, int resource, ArrayList<Device> objects)  {
+    public ActionListAdapter ( Context context, int resource, ArrayList<Action> objects)  {
         super(context, resource, objects);
         mContext=context;
         mResource=resource;
@@ -32,13 +32,12 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView= inflater.inflate(mResource, parent, false);
 
-        TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
-        TextView tvStatus = (TextView) convertView.findViewById(R.id.tvStatus);
-        ImageView imgView = (ImageView) convertView.findViewById(R.id.imageView);
+//        Button btn = (Button) convertView.findViewById(R.id.actionBtn1);
+        TextView tv = (TextView) convertView.findViewById(R.id.btnAction);
 
-        tvName.setText(getItem(position).getName());
-        tvStatus.setText(getItem(position).getStatus());
-        imgView.setImageResource(getItem(position).getImage());
+        tv.setText(" >  " + getItem(position).getName());
+//        btn.setText(getItem(position).getName());
+
         return  convertView;
     }
 }

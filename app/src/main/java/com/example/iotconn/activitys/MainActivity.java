@@ -1,13 +1,12 @@
 package com.example.iotconn.activitys;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.iotconn.R;
 import com.example.iotconn.models.Device;
@@ -38,13 +37,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 openDeviceActivity(devicesList.get(position));
-//                String valorTexto = devicesList.get(position).getName();
-//                Toast.makeText(getBaseContext(), valorTexto,Toast.LENGTH_LONG ).show();
             }
         });
 
         loadDevicesList();
-        loadListView();
     }
 
     private void loadListView() {
@@ -64,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     Device d = objSnapShot.getValue(Device.class);
                     devicesList.add(d);
                 }
+                loadListView();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -74,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void refreshDevices(View v) {
         loadDevicesList();
-        loadListView();
     }
 
     public void openDeviceActivity(Device d){

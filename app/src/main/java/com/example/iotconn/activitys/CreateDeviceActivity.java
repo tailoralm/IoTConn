@@ -2,30 +2,24 @@ package com.example.iotconn.activitys;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.iotconn.R;
 import com.example.iotconn.models.Device;
 import com.example.iotconn.utils.FirebaseUtils;
-import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
-import java.util.UUID;
-
 public class CreateDeviceActivity extends AppCompatActivity {
-    FirebaseUtils firebaseUtils;
-    Device device;
-    EditText evName;
-    EditText evAddress;
-    EditText evPort;
+    private FirebaseUtils firebaseUtils;
+    private Device device;
+    private EditText evName;
+    private EditText evAddress;
+    private EditText evPort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +29,8 @@ public class CreateDeviceActivity extends AppCompatActivity {
         Intent i = getIntent();
 
         evName = (EditText) findViewById(R.id.device_name);
-        evAddress = (EditText) findViewById(R.id.device_address);
-        evPort = (EditText) findViewById(R.id.device_port);
+        evAddress = (EditText) findViewById(R.id.actionValue);
+        evPort = (EditText) findViewById(R.id.actionName);
 
         if(i.getBooleanExtra("newDevice", true)){
             device = new Device();

@@ -39,7 +39,7 @@
             android:textColorHint="@color/white">
 
             <EditText
-                android:id="@+id/device_port"
+                android:id="@+id/actionName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
@@ -57,7 +57,7 @@
             android:textColorHint="@color/white">
 
             <EditText
-                android:id="@+id/device_address"
+                android:id="@+id/actionValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
