@@ -10,13 +10,14 @@ import android.widget.Toast;
 
 import com.example.iotconn.R;
 import com.example.iotconn.models.Action;
+import com.example.iotconn.models.Device;
 import com.example.iotconn.utils.FirebaseUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 public class CreateActionActivity extends AppCompatActivity {
 
-    private String idDevice;
+    private Device device;
     private FirebaseUtils fbUtils;
     private Action action;
 
@@ -28,7 +29,7 @@ public class CreateActionActivity extends AppCompatActivity {
         action = new Action();
 
         Intent i = getIntent();
-        idDevice = i.getStringExtra("id_device");
+        device = (Device) i.getSerializableExtra("device");
 
     }
 
@@ -37,8 +38,9 @@ public class CreateActionActivity extends AppCompatActivity {
         EditText actionValue = (EditText) findViewById(R.id.actionValue);
         action.setName(actionName.getText().toString());
         action.setValue(actionValue.getText().toString());
+        device.addAction(action);
 
-        fbUtils.getMDatabase().child(fbUtils.getUserUID()).child("devices").child(idDevice).child("actions").child(action.getId()).setValue(action)
+        fbUtils.getMDatabase().child(fbUtils.getUserUID()).child("devices").child(device.getId()).setValue(device)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

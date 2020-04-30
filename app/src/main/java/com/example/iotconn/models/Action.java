@@ -1,8 +1,9 @@
 package com.example.iotconn.models;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Action {
+public class Action implements Serializable {
 
     String id;
     String name;

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.iotconn.R;
 import com.example.iotconn.models.Device;
 import com.example.iotconn.utils.FirebaseUtils;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -18,8 +19,11 @@ public class CreateDeviceActivity extends AppCompatActivity {
     private FirebaseUtils firebaseUtils;
     private Device device;
     private EditText evName;
-    private EditText evAddress;
+    private EditText evHost;
     private EditText evPort;
+    private EditText evTopic;
+    private EditText evUsername;
+    private EditText evPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,24 +33,33 @@ public class CreateDeviceActivity extends AppCompatActivity {
         Intent i = getIntent();
 
         evName = (EditText) findViewById(R.id.device_name);
-        evAddress = (EditText) findViewById(R.id.actionValue);
-        evPort = (EditText) findViewById(R.id.actionName);
+        evHost = (EditText) findViewById(R.id.device_hostname);
+        evPort = (EditText) findViewById(R.id.device_port);
+        evTopic = (EditText) findViewById(R.id.device_topic);
+        evUsername = (EditText) findViewById(R.id.device_username);
+        evPassword = (EditText) findViewById(R.id.device_password);
 
         if(i.getBooleanExtra("newDevice", true)){
             device = new Device();
         } else{
             device = (Device) i.getSerializableExtra("object_device");
             evName.setText(device.getName());
-            evAddress.setText(device.getAddress());
-            evPort.setText(device.getPort());
+            evHost.setText(device.getHostname());
+            evPort.setText(device.portAsString());
+            evTopic.setText(device.getTopic());
+            evUsername.setText(device.getUsername());
+            evPassword.setText(device.getPassword());
         }
 
     }
 
     public void saveDevice(View v){
         device.setName(evName.getText().toString());
-        device.setAddress(evAddress.getText().toString());
-        device.setPort(evPort.getText().toString());
+        device.setHostname(evHost.getText().toString());
+        device.setPort(Integer.valueOf(evPort.getText().toString()));
+        device.setTopic(evTopic.getText().toString());
+        device.setUsername(evUsername.getText().toString());
+        device.setPassword(evPassword.getText().toString());
 
         firebaseUtils.getMDatabase().child(firebaseUtils.getUserUID()).child("devices").child(device.getId()).setValue(device)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -54,6 +67,12 @@ public class CreateDeviceActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(getBaseContext(), "Success!",Toast.LENGTH_LONG ).show();
                         backToDevices();
+                    }
+                })
+                .addOnCanceledListener(new OnCanceledListener() {
+                    @Override
+                    public void onCanceled() {
+                        Toast.makeText(getBaseContext(), "Error!",Toast.LENGTH_LONG ).show();
                     }
                 });
     }

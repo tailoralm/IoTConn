@@ -39,11 +39,11 @@
             android:textColorHint="@color/white">
 
             <EditText
-                android:id="@+id/actionName"
+                android:id="@+id/device_hostname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
-                android:hint="@string/prompt_device_port"
+                android:hint="@string/prompt_device_host"
                 android:inputType="text"
                 android:maxLines="1"
                 android:textColor="@color/white"
@@ -57,12 +57,66 @@
             android:textColorHint="@color/white">
 
             <EditText
-                android:id="@+id/actionValue"
+                android:id="@+id/device_port"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
-                android:hint="@string/prompt_device_address"
+                android:hint="@string/prompt_device_port"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/white">
+
+            <EditText
+                android:id="@+id/device_topic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:hint="@string/prompt_device_topic"
                 android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/white">
+
+            <EditText
+                android:id="@+id/device_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:hint="@string/prompt_device_username"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColorHint="@color/white">
+
+            <EditText
+                android:id="@+id/device_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:hint="@string/prompt_device_password"
+                android:inputType="textPassword"
                 android:maxLines="1"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white" />

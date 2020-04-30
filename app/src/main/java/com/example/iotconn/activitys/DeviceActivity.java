@@ -18,6 +18,7 @@ import com.example.iotconn.models.Action;
 import com.example.iotconn.models.Device;
 import com.example.iotconn.utils.ActionListAdapter;
 import com.example.iotconn.utils.FirebaseUtils;
+import com.example.iotconn.utils.MQTTConnector;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
@@ -28,12 +29,14 @@ import java.util.ArrayList;
 public class DeviceActivity extends AppCompatActivity {
     private TextView tvDeviceName;
     private TextView tvDeviceStatus;
+    private TextView tvDeviceHost;
+    private TextView tvDeviceTopic;
     private ImageView ivDeviceImage;
     private ListView lvActions;
 
+    MQTTConnector mqttConnector;
     private FirebaseUtils fbUtils;
     private Device device;
-    private ArrayList<Action> actionsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +44,12 @@ public class DeviceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_device);
         Intent i = getIntent();
         device = (Device) i.getSerializableExtra("selected_device");
-        actionsList = new ArrayList<Action>();
 
         fbUtils = new FirebaseUtils();
         tvDeviceName = findViewById(R.id.tv_device_name);
         tvDeviceStatus = findViewById(R.id.tv_device_status);
+        tvDeviceHost = findViewById(R.id.tv_device_host);
+        tvDeviceTopic = findViewById(R.id.tv_device_topic);
         ivDeviceImage = findViewById(R.id.iv_device_image);
 
         lvActions = findViewById(R.id.listActions);
@@ -53,12 +57,11 @@ public class DeviceActivity extends AppCompatActivity {
         lvActions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                doAction(actionsList.get(position));
+                doAction(device.getActions().get(position));
             }
         });
 
         refreshInfos();
-        refreshActionList();
     }
 
     public void editDevice(View v){
@@ -70,7 +73,7 @@ public class DeviceActivity extends AppCompatActivity {
 
     public void createAction(View v) {
         Intent i = new Intent(this, CreateActionActivity.class);
-        i.putExtra("id_device", device.getId());
+        i.putExtra("device", device);
         startActivity(i);
     }
 
@@ -88,43 +91,26 @@ public class DeviceActivity extends AppCompatActivity {
 
             }
         });
-        refreshActionList();
 
     }
 
     private void refreshInfos() {
-        tvDeviceName.setText(device.getName());
-        tvDeviceStatus.setText(device.getStatus());
+        tvDeviceName.setText(getString(R.string.prompt_device_name) + ": " + device.getName());
+        tvDeviceStatus.setText(getString(R.string.prompt_device_status) + ": " + device.getStatus());
+        tvDeviceHost.setText(getString(R.string.prompt_device_host) + ": " + device.getHostname() + ":" + device.portAsString());
+        tvDeviceTopic.setText(getString(R.string.prompt_device_topic) + ": " + device.getTopic());
         ivDeviceImage.setImageResource(device.getImage());
+        loadListActionView();
     }
 
     private void doAction(Action action){
-        Toast.makeText(getBaseContext(), action.getValue(), Toast.LENGTH_LONG).show();
-        //chamar metodo do MQTT passando parametros de conexão deste device + ação clicada
+        getMqttConnector().doAction(action.getValue());
     }
 
-    private void refreshActionList(){
-        Query query = fbUtils.getMDatabase().child(fbUtils.getUserUID()).child("devices").child(device.getId()).child("actions");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                actionsList = new ArrayList<Action>();
-                for (DataSnapshot objSnapShot : dataSnapshot.getChildren()) {
-                    Action a = objSnapShot.getValue(Action.class);
-                    actionsList.add(a);
-                }
-                loadListActionView();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
     private void loadListActionView() {
         ActionListAdapter adapter = new ActionListAdapter(this,
                 R.layout.template_listview_action,
-                actionsList);
+                device.getActions());
         lvActions.setAdapter(adapter);
     }
 
@@ -158,5 +144,12 @@ public class DeviceActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private MQTTConnector getMqttConnector(){
+        if(mqttConnector == null || !mqttConnector.isConnected()){
+            mqttConnector = new MQTTConnector(device.getHostname(), device.portAsString(), device.getUsername(), device.getPassword(), device.getTopic(), this);
+        }
+        return mqttConnector;
     }
 }
