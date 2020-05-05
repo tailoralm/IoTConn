@@ -29,10 +29,10 @@ public class Device implements Serializable {
         setStatus("");
         setActions(new ArrayList<Action>());
         setId(UUID.randomUUID().toString());
-        image = R.drawable.device;
+        setImage(R.drawable.device);
     }
 
-    public Device(String id, String name, String hostname, int port, String topic, String username, String password) {
+    public Device(String id, String name, String hostname, int port, String topic, String username, String password, int image) {
         setHostname(hostname);
         setPort(port);
         setTopic(topic);
@@ -41,7 +41,7 @@ public class Device implements Serializable {
         setName(name);
         setStatus(status);
         setId(id);
-        image = R.drawable.device;
+        setImage(R.drawable.device);
     }
 
     public Device(String id, String name, String status, String hostname, int port, String topic, String username, String password) {
@@ -53,7 +53,7 @@ public class Device implements Serializable {
         setName(name);
         setStatus(status);
         setId(id);
-        image = R.drawable.device;
+        setImage(R.drawable.device);
     }
 
     public String getHostname() {

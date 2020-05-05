@@ -23,6 +23,9 @@
     <string name="prompt_btn_name">Button Name</string>
     <string name="prompt_btn_value">Value</string>
 
+    <string name="prompt_device_delete">Delete Device</string>
+    <string name="prompt_really_delete">Do you really want to delete this device?</string>
+
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="invalid_email">This email address is invalid</string>
@@ -47,4 +50,6 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_sign_up">Sign up</string>
+    <string name="action_yes">Yes</string>
+    <string name="action_no">No</string>
 </resources>

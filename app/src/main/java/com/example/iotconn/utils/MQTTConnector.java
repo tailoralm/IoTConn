@@ -15,34 +15,30 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 public class MQTTConnector {
 
     MqttAndroidClient client;
+    FirebaseUtils fbUtils;
+    MqttConnectOptions options;
     String topic;
 
     public MQTTConnector(String mqttHost, String port, String username, String password, String topic, final Context context){
+        fbUtils = new FirebaseUtils();
         String clientId = MqttClient.generateClientId();
         client = new MqttAndroidClient(context, mqttHost + ":" + port, clientId);
         this.topic = topic;
-        MqttConnectOptions options = new MqttConnectOptions();
+        options = new MqttConnectOptions();
+
         if(!username.isEmpty() && !password.isEmpty()){
             options.setUserName(username);
             options.setPassword(password.toCharArray());
         }
+    }
 
+    public IMqttToken connect(){
         try {
-            IMqttToken token = client.connect(options);
-            token.setActionCallback(new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    Toast.makeText(context, context.getString(R.string.show_connected),Toast.LENGTH_LONG).show();
-                }
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Toast.makeText(context, context.getString(R.string.show_not_connected),Toast.LENGTH_LONG).show();
-                    exception.printStackTrace();
-                }
-            });
+            return client.connect(options);
         } catch (MqttException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public void doAction(String message){
@@ -51,8 +47,13 @@ public class MQTTConnector {
                 client.publish(topic, message.getBytes(),0,false);
             } catch (MqttException e) {
                 e.printStackTrace();
+
             }
         }
+    }
+
+    public MqttAndroidClient getClient(){
+        return client;
     }
 
     public boolean isConnected(){

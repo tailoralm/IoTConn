@@ -19,12 +19,20 @@ import com.example.iotconn.models.Device;
 import com.example.iotconn.utils.ActionListAdapter;
 import com.example.iotconn.utils.FirebaseUtils;
 import com.example.iotconn.utils.MQTTConnector;
+import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class DeviceActivity extends AppCompatActivity {
     private TextView tvDeviceName;
@@ -37,6 +45,7 @@ public class DeviceActivity extends AppCompatActivity {
     MQTTConnector mqttConnector;
     private FirebaseUtils fbUtils;
     private Device device;
+    private boolean subscribed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +60,24 @@ public class DeviceActivity extends AppCompatActivity {
         tvDeviceHost = findViewById(R.id.tv_device_host);
         tvDeviceTopic = findViewById(R.id.tv_device_topic);
         ivDeviceImage = findViewById(R.id.iv_device_image);
-
         lvActions = findViewById(R.id.listActions);
+
+        getMqttConnector();
 
         lvActions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                doAction(device.getActions().get(position));
+                doAction(device.getActions().get(position).getValue());
+
             }
         });
 
         refreshInfos();
+    }
+
+    public void doAction(String value){
+        getMqttConnector().doAction(value);
+        subscribeGetStatus();
     }
 
     public void editDevice(View v){
@@ -85,13 +101,10 @@ public class DeviceActivity extends AppCompatActivity {
                     device = dataSnapshot.getValue(Device.class);
                     refreshInfos();
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
-
+        subscribeGetStatus();
     }
 
     private void refreshInfos() {
@@ -103,10 +116,6 @@ public class DeviceActivity extends AppCompatActivity {
         loadListActionView();
     }
 
-    private void doAction(Action action){
-        getMqttConnector().doAction(action.getValue());
-    }
-
     private void loadListActionView() {
         ActionListAdapter adapter = new ActionListAdapter(this,
                 R.layout.template_listview_action,
@@ -116,9 +125,9 @@ public class DeviceActivity extends AppCompatActivity {
 
     public void deleteDevice(View v) {
         new AlertDialog.Builder(this)
-                .setTitle("Delete Device")
-                .setMessage("Do you really want to delete this device?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setTitle(getString(R.string.prompt_device_delete))
+                .setMessage(getString(R.string.prompt_really_delete))
+                .setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         deleteThisDevice();
@@ -127,7 +136,7 @@ public class DeviceActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 })
-                .setNegativeButton("No", null).show();
+                .setNegativeButton(getString(R.string.action_no), null).show();
     }
 
     public void deleteThisDevice() {
@@ -146,10 +155,57 @@ public class DeviceActivity extends AppCompatActivity {
         });
     }
 
+    public void subscribeGetStatus() {
+        if (getMqttConnector().isConnected() && !subscribed) {
+            try {
+                getMqttConnector().getClient().subscribe("status_" + device.getTopic(), 0);
+                getMqttConnector().getClient().setCallback(new MqttCallback() {
+                    @Override
+                    public void connectionLost(Throwable cause) {}
+                    @Override
+                    public void messageArrived(String topic, final MqttMessage message) throws Exception {
+                        fbUtils.getMDatabase().child(fbUtils.getUserUID()).child("devices").child(device.getId()).child("status").setValue(message.toString())
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        device.setStatus(message.toString());
+                                        tvDeviceStatus.setText(getString(R.string.prompt_device_status) + ": " + device.getStatus());
+                                        subscribed = true;
+                                    }
+                                });
+                    }
+                    @Override
+                    public void deliveryComplete(IMqttDeliveryToken token) {}
+                });
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private MQTTConnector getMqttConnector(){
         if(mqttConnector == null || !mqttConnector.isConnected()){
             mqttConnector = new MQTTConnector(device.getHostname(), device.portAsString(), device.getUsername(), device.getPassword(), device.getTopic(), this);
+            subscribed = false;
+
+            IMqttToken token = mqttConnector.connect();
+            if(token != null){
+                token.setActionCallback(new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        subscribeGetStatus();
+                    }
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        exception.printStackTrace();
+                    }
+                });
+            }
+
+
         }
         return mqttConnector;
     }
+
+
 }
