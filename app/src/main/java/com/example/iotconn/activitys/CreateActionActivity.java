@@ -44,7 +44,7 @@ public class CreateActionActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getBaseContext(), "Success!",Toast.LENGTH_LONG ).show();
+                        Toast.makeText(getBaseContext(),  getString(R.string.show_success),Toast.LENGTH_LONG ).show();
                         Intent i = new Intent(getBaseContext(), DeviceActivity.class);
                         startActivity(i);
                     }

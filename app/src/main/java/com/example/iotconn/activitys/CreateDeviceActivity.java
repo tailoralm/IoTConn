@@ -65,14 +65,8 @@ public class CreateDeviceActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getBaseContext(), "Success!",Toast.LENGTH_LONG ).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.show_success),Toast.LENGTH_LONG ).show();
                         backToDevices();
-                    }
-                })
-                .addOnCanceledListener(new OnCanceledListener() {
-                    @Override
-                    public void onCanceled() {
-                        Toast.makeText(getBaseContext(), "Error!",Toast.LENGTH_LONG ).show();
                     }
                 });
     }

@@ -1,10 +1,17 @@
 <resources>
     <string name="app_name">IOT Conn</string>
-    <string name="welcome">"Welcome !"</string>
+    <string name="welcome">Welcome !</string>
 
-    <string name="show_connected">"Connected!"</string>
-    <string name="show_not_connected">"Error in connection!"</string>
-    <string name="show_error_action">"Error in action!"</string>
+    <string name="show_connected">Connected!</string>
+    <string name="show_success">Success!</string>
+    <string name="show_alert">Alert!</string>
+    <string name="show_error">Error!</string>
+    <string name="show_not_connected">Error in connection!</string>
+    <string name="show_error_action">Error in action!</string>
+    <string name="show_registration_error">Registration attempt failed</string>
+    <string name="show_login_progress">Login in progress</string>
+    <string name="show_signing_error">There was a problem signing in</string>
+
 
     <string name="prompt_email">Email</string>
     <string name="prompt_msg">Type a message</string>

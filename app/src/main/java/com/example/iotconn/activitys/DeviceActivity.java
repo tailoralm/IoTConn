@@ -150,7 +150,7 @@ public class DeviceActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),  getString(R.string.show_error_action), Toast.LENGTH_LONG).show();
             }
         });
     }

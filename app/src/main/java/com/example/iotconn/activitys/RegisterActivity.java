@@ -112,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Log.d(String.valueOf(R.string.app_name), "createFirebaseUser onComplete: " + task.isSuccessful());
                 if (!task.isSuccessful()) {
                     Log.d(String.valueOf(R.string.app_name), "User creation failed");
-                    showErrorDialog("Registration attempt failed");
+                    showErrorDialog(getString(R.string.show_registration_error));
                 } else {
                     saveDisplayName();
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
@@ -145,7 +145,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void showErrorDialog(String message) {
         new AlertDialog.Builder(this)
-                .setTitle("Oops")
+                .setTitle(getString(R.string.show_error))
                 .setMessage(message)
                 .setPositiveButton(android.R.string.ok, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)

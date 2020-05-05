@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         if (email.equals("") || password.equals("")) {
             return;
         } else {
-            Toast.makeText(this, "Login in progress", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.show_login_progress), Toast.LENGTH_SHORT).show();
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (!task.isSuccessful()) {
                         Log.d(String.valueOf(R.string.app_name), "Problem signing in: " + task.getException());
-                        showErrorDialog("There was a problem signing in");
+                        showErrorDialog(getString(R.string.show_signing_error));
                     } else {
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showErrorDialog(String message) {
         new AlertDialog.Builder(this)
-                .setTitle("Oops")
+                .setTitle(getString(R.string.show_alert))
                 .setMessage(message)
                 .setPositiveButton(android.R.string.ok, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
