@@ -14,12 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.iotconn.R;
-import com.example.iotconn.models.Action;
 import com.example.iotconn.models.Device;
 import com.example.iotconn.utils.ActionListAdapter;
 import com.example.iotconn.utils.FirebaseUtils;
 import com.example.iotconn.utils.MQTTConnector;
-import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -68,7 +66,14 @@ public class DeviceActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 doAction(device.getActions().get(position).getValue());
+            }
+        });
 
+        lvActions.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                deleteCommand(position);
+                return false;
             }
         });
 
@@ -130,29 +135,33 @@ public class DeviceActivity extends AppCompatActivity {
                 .setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        deleteThisDevice();
-                        Intent intent = new Intent(DeviceActivity.this, MainActivity.class);
-                        finish();
-                        startActivity(intent);
+                        fbUtils.deleteDevice(getApplicationContext(), device);
+
                     }
                 })
                 .setNegativeButton(getString(R.string.action_no), null).show();
     }
 
     public void deleteThisDevice() {
-        fbUtils.getMDatabase().child(fbUtils.getUserUID()).child("devices").child(device.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    snapshot.getRef().removeValue();
-                }
-            }
+    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getBaseContext(),  getString(R.string.show_error_action), Toast.LENGTH_LONG).show();
-            }
-        });
+    public void deleteCommand(final int position) {
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.prompt_command_delete))
+                .setMessage(getString(R.string.prompt_really_delete_command))
+                .setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteThisCommand(position);
+                    }
+                })
+                .setNegativeButton(getString(R.string.action_no), null).show();
+    }
+
+    public void deleteThisCommand(int position) {
+        device.getActions().remove(position);
+        fbUtils.saveDevice(this, device);
+        refreshInfos();
     }
 
     public void subscribeGetStatus() {

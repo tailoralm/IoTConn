@@ -61,19 +61,10 @@ public class CreateDeviceActivity extends AppCompatActivity {
         device.setUsername(evUsername.getText().toString());
         device.setPassword(evPassword.getText().toString());
 
-        firebaseUtils.getMDatabase().child(firebaseUtils.getUserUID()).child("devices").child(device.getId()).setValue(device)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getBaseContext(), getString(R.string.show_success),Toast.LENGTH_LONG ).show();
-                        backToDevices();
-                    }
-                });
-    }
-
-    public void backToDevices(){
+        firebaseUtils.saveDevice(this, device);
         Intent intent = new Intent(this, MainActivity.class);
         finish();
         startActivity(intent);
+
     }
 }
