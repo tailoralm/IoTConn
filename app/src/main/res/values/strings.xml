@@ -41,10 +41,10 @@
     <string name="field_required">This field is required</string>
     <string name="login_failed">"Login failed"</string>
 
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_main2" translatable="false">Main2Activity</string>
+    <string name="title_home" translatable="false">Home</string>
+    <string name="title_dashboard" translatable="false">Dashboard</string>
+    <string name="title_notifications" translatable="false">Notifications</string>
 
     <string name="action_back">Back</string>
     <string name="action_cancel">Cancel</string>
