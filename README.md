@@ -8,7 +8,7 @@ Tecnologias utilizadas:
 - Conexão MQTT: Eclipse Paho
 - Autenticação e Banco de dados: Google Firebase
 
-Link para download do APK:  [Google Drive](https://drive.google.com/file/d/1SpmlGYftv9T6GtvCf2j9RX_LgfSRCaIy/view?usp=sharing); 
+Link para download do APK:  [Releases](https://github.com/tailoralm/IoTConn/releases/); 
 
 ## Instruções de instalação
 Em breve.
