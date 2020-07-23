@@ -28,3 +28,14 @@ Quando está com a tela do dispositivo aberta o app realiza um <i>subscribe</i> 
 * Topic: termometro
 
 Ao abrir a tela do dispositivo o app estará <i>subscribed</i> no tópico "status_termometro" recebendo as mensagens e salvando na base de dados.
+
+### Screenshots
+Login            |  Register
+:-------------------------:|:-------------------------:
+<img src='./screenshots/Login.jpg' alt='Login' width='300px'></img>|<img src='./screenshots/Register.jpg' alt='Register' width='300px'></img>
+Main             |  Device Screen
+<img src='./screenshots/Main.jpg' alt='Main' width='300px'></img>|<img src='./screenshots/Device.jpg' alt='Device' width='300px'></img>
+Create Button             |  Create Device
+<img src='./screenshots/Create_Button.jpg' alt='Create Button' width='300px'></img>|<img src='./screenshots/Create_Device.jpg' alt='Create Device' width='300px'></img>
+Delete Button             |  Delete Device
+<img src='./screenshots/Delete_btn.jpg' alt='Delete Button' width='300px'></img>|<img src='./screenshots/Delete_Device.jpg' alt='Delete Device' width='300px'></img>
